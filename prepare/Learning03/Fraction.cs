@@ -2,40 +2,57 @@ using System;
 
 public class Fraction
 {
-    private int _top;
-    private int _bottom;
+    private int numerator;
+    private int denominator;
 
+    // Constructors
     public Fraction()
     {
-        // Default to 1/1
-        _top = 1;
-        _bottom = 1;
+        numerator = 1;
+        denominator = 1;
     }
 
-    public Fraction(int wholeNumber)
+    public Fraction(int top)
     {
-        _top = wholeNumber;
-        _bottom = 1;
+        numerator = top;
+        denominator = 1;
     }
 
     public Fraction(int top, int bottom)
     {
-        _top = top;
-        _bottom = bottom;
+        numerator = top;
+        denominator = bottom;
     }
 
+    // Getters and setters
+    public int GetNumerator()
+    {
+        return numerator;
+    }
+
+    public void SetNumerator(int top)
+    {
+        numerator = top;
+    }
+
+    public int GetDenominator()
+    {
+        return denominator;
+    }
+
+    public void SetDenominator(int bottom)
+    {
+        denominator = bottom;
+    }
+
+    // Methods to return representations
     public string GetFractionString()
     {
-        // Notice that this is not stored as a member variable.
-        // Is is just a temporary, local variable that will be recomputed each time this is called.
-        string text = $"{_top}/{_bottom}";
-        return text;
+        return $"{numerator}/{denominator}";
     }
 
     public double GetDecimalValue()
     {
-        // Notice that this is not stored as a member variable.
-        // Is will be recomputed each time this is called.
-        return (double)_top / (double)_bottom;
+        return (double)numerator / denominator;
     }
 }
