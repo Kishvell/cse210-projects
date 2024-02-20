@@ -1,103 +1,140 @@
 using System;
 using System.Collections.Generic;
 
-// UserInterface class responsible for handling user input and providing a user-friendly interface
 class UserInterface
 {
-    // Method to get user input for adding an expense category
-    public string GetUserInputForExpenseCategory()
+    public void DisplayMenu()
     {
-        Console.WriteLine("Enter the name of the expense category: ");
-        return Console.ReadLine();
-    }
-
-    // Method to display a budget report to the user
-    public void DisplayBudgetReport(string report)
-    {
-        Console.WriteLine("Budget Report:");
-        Console.WriteLine(report);
+        Console.WriteLine("1. Add Expense");
+        Console.WriteLine("2. Add Income");
+        Console.WriteLine("3. Track Budget");
+        Console.WriteLine("4. Set Budget Goal");
+        Console.WriteLine("5. Track Budget Goals");
+        Console.WriteLine("6. Exit");
     }
 }
 
-// DataStorage class responsible for handling the storage and retrieval of budget-related data
-class DataStorage
+class Budget
 {
-    // Method to save budget data to a file
-    public void SaveBudgetData(string data)
-    {
-        // Implementation for saving data to a file
-        Console.WriteLine("Saving budget data to a file...");
-    }
-}
+    private decimal totalIncome;
+    private decimal totalExpenses;
+    private decimal budgetGoalExpense;
+    private decimal budgetGoalIncome;
+    private List<(string, decimal)> expenses = new List<(string, decimal)>();
+    private List<(string, decimal)> incomes = new List<(string, decimal)>();
 
-// BudgetManagementSystem class responsible for coordinating budget-related operations
-class BudgetManagementSystem
-{
-    private double budgetBalance;
-    private List<string> expenseCategories;
-    private List<string> incomeSources;
-
-    public BudgetManagementSystem()
+    public void AddExpense(string name, decimal amount)
     {
-        budgetBalance = 0.0;
-        expenseCategories = new List<string>();
-        incomeSources = new List<string>();
+        totalExpenses += amount;
+        expenses.Add((name, amount));
     }
 
-    // Method to add a new expense category to the collection
-    public void AddExpenseCategory(string category)
+    public void AddIncome(string name, decimal amount)
     {
-        expenseCategories.Add(category);
-        Console.WriteLine("Expense category added: " + category);
+        totalIncome += amount;
+        incomes.Add((name, amount));
     }
 
-    // Method to add a new income source to the collection
-    public void AddIncomeSource(string source)
+    public void TrackBudgetDetails()
     {
-        incomeSources.Add(source);
-        Console.WriteLine("Income source added: " + source);
+        Console.WriteLine("Expenses:");
+        foreach (var expense in expenses)
+        {
+            Console.WriteLine($"Name: {expense.Item1}, Amount: {expense.Item2}");
+        }
+
+        Console.WriteLine("\nIncomes:");
+        foreach (var income in incomes)
+        {
+            Console.WriteLine($"Name: {income.Item1}, Amount: {income.Item2}");
+        }
     }
 
-    // Method to update the budget balance based on income and expenses
-    public void UpdateBudgetBalance(double income, double expenses)
+    public void SetBudgetGoal()
     {
-        budgetBalance += income - expenses;
-        Console.WriteLine("Budget balance updated: " + budgetBalance);
+        Console.WriteLine("Do you wish to set a goal?");
+        Console.WriteLine("1. Set Expense Goal");
+        Console.WriteLine("2. Set Income Goal");
+        Console.WriteLine("3. Return to Main Menu");
+
+        string choice = Console.ReadLine();
+        switch (choice)
+        {
+            case "1":
+                Console.Write("Enter expense goal amount: ");
+                budgetGoalExpense = decimal.Parse(Console.ReadLine());
+                break;
+            case "2":
+                Console.Write("Enter income goal amount: ");
+                budgetGoalIncome = decimal.Parse(Console.ReadLine());
+                break;
+            case "3":
+                break;
+            default:
+                Console.WriteLine("Invalid choice");
+                break;
+        }
     }
 
-    // Method to generate a basic budget report
-    public string GenerateBasicReport()
+    public void TrackBudgetGoals()
     {
-        string report = "Budget Report: \n" +
-                        "Balance: " + budgetBalance + "\n" +
-                        "Expense Categories: " + string.Join(", ", expenseCategories) + "\n" +
-                        "Income Sources: " + string.Join(", ", incomeSources) + "\n";
-        return report;
+        if (budgetGoalExpense > 0)
+        {
+            Console.WriteLine("Expense Goal: " + budgetGoalExpense);
+        }
+        if (budgetGoalIncome > 0)
+        {
+            Console.WriteLine("Income Goal: " + budgetGoalIncome);
+        }
     }
 }
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        Console.WriteLine("Hello FinalProject World!");
-        // Instantiate the classes
-        UserInterface userInterface = new UserInterface();
-        DataStorage dataStorage = new DataStorage();
-        BudgetManagementSystem budgetSystem = new BudgetManagementSystem();
+        UserInterface ui = new UserInterface();
+        Budget budget = new Budget();
 
-        // Simulate user interaction
-        string newExpenseCategory = userInterface.GetUserInputForExpenseCategory();
-        budgetSystem.AddExpenseCategory(newExpenseCategory);
+        bool running = true;
+        while (running)
+        {
+            ui.DisplayMenu();
+            Console.Write("Enter your choice: ");
+            string input = Console.ReadLine();
 
-        budgetSystem.AddIncomeSource("Salary");
-        budgetSystem.AddIncomeSource("Freelance Work");
-
-        budgetSystem.UpdateBudgetBalance(6000, 3000);
-
-        string report = budgetSystem.GenerateBasicReport();
-        userInterface.DisplayBudgetReport(report);
-
-        dataStorage.SaveBudgetData(report);
+            switch (input)
+            {
+                case "1":
+                    Console.Write("How would you like to name the expense? ");
+                    string expenseName = Console.ReadLine();
+                    Console.Write("How much did you expend? ");
+                    decimal expenseAmount = decimal.Parse(Console.ReadLine());
+                    budget.AddExpense(expenseName, expenseAmount);
+                    break;
+                case "2":
+                    Console.Write("How would you like to name the income you received? ");
+                    string incomeName = Console.ReadLine();
+                    Console.Write("How much did you receive? ");
+                    decimal incomeAmount = decimal.Parse(Console.ReadLine());
+                    budget.AddIncome(incomeName, incomeAmount);
+                    break;
+                case "3":
+                    budget.TrackBudgetDetails();
+                    break;
+                case "4":
+                    budget.SetBudgetGoal();
+                    break;
+                case "5":
+                    budget.TrackBudgetGoals();
+                    break;
+                case "6":
+                    running = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice");
+                    break;
+            }
+        }
     }
 }
