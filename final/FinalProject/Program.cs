@@ -5,14 +5,21 @@ class UserInterface
 {
     public void DisplayMenu()
     {
+        Console.WriteLine("------------------------");
         Console.WriteLine("1. Add Expense");
         Console.WriteLine("2. Add Income");
         Console.WriteLine("3. Track Budget");
         Console.WriteLine("4. Set Budget Goal");
         Console.WriteLine("5. Track Budget Goals");
         Console.WriteLine("6. Exit");
+        Console.WriteLine("------------------------");
+        Console.WriteLine("");
     }
 }
+
+// In the provided code, the principle of abstraction is applied through the Budget class.
+
+// The principle of encapsulation is applied throughout the provided code, particularly within the Budget class and its methods.
 
 class Budget
 {
@@ -40,22 +47,31 @@ class Budget
         Console.WriteLine("Expenses:");
         foreach (var expense in expenses)
         {
+            Console.WriteLine("---------------------------------");
             Console.WriteLine($"Name: {expense.Item1}, Amount: {expense.Item2}");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("");
         }
 
         Console.WriteLine("\nIncomes:");
         foreach (var income in incomes)
         {
+            Console.WriteLine("---------------------------------");
             Console.WriteLine($"Name: {income.Item1}, Amount: {income.Item2}");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("");
         }
     }
 
     public void SetBudgetGoal()
     {
+        Console.WriteLine("----------------------------");
         Console.WriteLine("Do you wish to set a goal?");
         Console.WriteLine("1. Set Expense Goal");
         Console.WriteLine("2. Set Income Goal");
         Console.WriteLine("3. Return to Main Menu");
+        Console.WriteLine("----------------------------");
+        Console.WriteLine("");
 
         string choice = Console.ReadLine();
         switch (choice)
@@ -80,11 +96,17 @@ class Budget
     {
         if (budgetGoalExpense > 0)
         {
+            Console.WriteLine("-----------------------");
             Console.WriteLine("Expense Goal: " + budgetGoalExpense);
+            Console.WriteLine("-----------------------");
+            Console.WriteLine("");
         }
         if (budgetGoalIncome > 0)
         {
+            Console.WriteLine("-----------------------");
             Console.WriteLine("Income Goal: " + budgetGoalIncome);
+            Console.WriteLine("-----------------------");
+            Console.WriteLine("");
         }
     }
 }
@@ -138,3 +160,12 @@ class Program
         }
     }
 }
+
+// The principle of inheritance is not explicitly applied.
+// Inheritance allows a new class to inherit properties and behaviors from an existing class,
+// promoting code reusability and the creation of class hierarchies.
+// This supports modularity and organized code.
+
+// The principle of polymorphism is not explicitly implemented.
+// Polymorphism allows different objects to be treated as instances of a common superclass,
+// enabling flexible and extensible code.
